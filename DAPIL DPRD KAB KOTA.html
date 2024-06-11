@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HASIL PEMILU DPRD DIY TAHUN 2024 PER DAPIL</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    
+    <script src="./bundle.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Leaflet.GraphicScale.min.css">
+    <script src="./Leaflet.GraphicScale.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        #map {
+            height: 100vh;
+            width: calc(100% - 250px);
+            margin-left: 250px;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background-color: #343a40;
+            padding-top: 60px;
+            z-index: 1000;
+        }
+        .sidebar .nav-item {
+            margin-bottom: 10px;
+        }
+        .sidebar h4 {
+            padding-left: 15px;
+            color: #fff;
+        }
+        .sidebar .nav-link {
+            color: #adb5bd;
+        }
+        .sidebar .nav-link:hover {
+            color: #fff;
+        }
+        .map-title {
+            position: absolute;
+            top: 20px;
+            left: 270px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            left: 270px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            font-size: 10px;
+            line-height: 1.5;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 1250px;
+            display: grid;
+            grid-auto-rows: auto;
+            grid-column-gap: 5px;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 5px;
+        }
+        .legend-item {
+            margin-bottom: 0px;
+        }
+        .legend-color {
+            display: inline-block;
+            opacity: 0.7;
+            width: 50px;
+            height: 20px;
+            margin-right: 3px;
+            border-radius: 0px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar for menu -->
+    <div class="sidebar">
+        <h4>Pilih Data</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="loadScript('DAPIL_KABKOTA.js')">Script 1</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="loadScript('KEC_KABKOTA.js')">Script 2</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="loadScript('PROVDAPIL.js')">Script 3</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="loadScript('PROVKEC.js')">Script 4</a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Map container -->
+    <div class="map-title">HASIL PEMILU DPRD KAB/KOTA DIY TAHUN 2024</div>
+    <div id="map"></div>
+    
+    <!-- Legend -->
+    var legend = L.control({position: 'bottomleft'});
+legend.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'legend');
+    div.innerHTML = 
+        '<div class="column">' +
+            '<strong>PKB</strong><br>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #02754c;"></span> TINGGI</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #7cb396;"></span> SEDANG</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #BDD9CA;"></span> RENDAH</div>' +
+        '</div>' +
+        '<div class="column">' +
+            '<strong>GERINDRA</strong><br>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #c48434;"></span> TINGGI</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #e4b686;"></span> SEDANG</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #F3DEC9;"></span> RENDAH</div>' +
+        '</div>'+
+        '<div class="column">' +
+            '<strong>PDIP</strong><br>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #d21d25;"></span> TINGGI</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #f28e7d;"></span> SEDANG</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #ffcabb;"></span> RENDAH</div>' +
+        '</div>' +
+        '<div class="column">' +
+            '<strong>GOLKAR</strong><br>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #fbcc04;"></span> TINGGI</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #fce16f;"></span> SEDANG</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #fff4b4;"></span> RENDAH</div>' +
+        '</div>'+
+		'<div class="column">' +
+            '<strong>NASDEM</strong><br>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #17158b;"></span> TINGGI</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #7e61c4;"></span> SEDANG</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #d1b4ff;"></span> RENDAH</div>' +
+        '</div>'+
+		'<div class="column">' +
+            '<strong>PKS</strong><br>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #f85206;"></span> TINGGI</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #fba256;"></span> SEDANG</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #ffdeb2;"></span> RENDAH</div>' +
+        '</div>'+
+		'<div class="column">' +
+            '<strong>PAN</strong><br>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #00b0df;"></span> TINGGI</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #73caef;"></span> SEDANG</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #afe1fa;"></span> RENDAH</div>' +
+        '</div>'+
+		'<div class="column">' +
+            '<strong>PPP</strong><br>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #096309;"></span> TINGGI</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #006D2C;"></span> SEDANG</div>' +
+            '<div class="legend-item"><span class="legend-color" style="background-color: #238B45;"></span> RENDAH</div>' +
+        '</div>';
+    return div;
+	};
+	legend.addTo(map);
+    
+    <script>
+        var map = L.map('map', {
+            center: [-7.8990, 110.3706],
+            zoom: 9.5
+        });
+
+        var carto = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        function loadScript(scriptName) {
+            $.getJSON(scriptName, function(data) {
+                var geojsonLayer = L.geoJson(data).addTo(map);
+
+                // Remove previous layer if it exists
+                if (map.currentLayer) {
+                    map.removeLayer(map.currentLayer);
+                }
+
+                // Save current layer in map object
+                map.currentLayer = geojsonLayer;
+            });
+        }
+    </script>
+</body>
+</html>

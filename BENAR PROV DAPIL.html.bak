@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Hasil Pemilu Tahun 2024</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .active {
+      color: #333;
+    }
+
+    .menu-item.active .bi.bi-circle {
+      color: blue;
+    }
+
+    ul.menu li a.active {
+      color: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-left-content-between">
+      <a href="COBA.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo11.png" alt="">
+        <span class="d-none d-lg-block">UGM</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+  </header>
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="menu-item">
+        <a class="nav-link" href="COBA.html">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Hasil Pemilu DPRD DIY Tahun 2024</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li class="menu-item">
+            <a href="BENAR PROV DAPIL.html" id="dapil-link">
+              <i class="bi bi-circle"></i><span>Dapil</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="BENAR PROV KEC.html" id="kec-link">
+              <i class="bi bi-circle"></i><span>Kecamatan</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Hasil Pemilu DPRD Kab/Kota DIY Tahun 2024</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li class="menu-item">
+            <a href="BENAR KABKOT DAPIL.html">
+              <i class="bi bi-circle"></i><span>Dapil</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="BENAR KABKOT KEC.html">
+              <i class="bi bi-circle"></i><span>Kecamatan</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Hasil Pemilu DPRD DIY Tahun 2024 Tingkat Dapil</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="COBA.html">Home</a></li>
+          <li class="breadcrumb-item">Hasil Pemilu DPRD DIY Tahun 2024</li>
+          <li class="breadcrumb-item active">Dapil</li>
+        </ol>
+      </nav>
+    </div>
+
+    <section class="section Dapil">
+      <head>
+        <style>
+          #map {
+            height: calc(88vh - 70px);
+            width: 100vw;
+            margin-left: 0;
+          }
+
+          #navbar-iframe {
+            height: 0px;
+            visibility: hidden;
+            display: none;
+          }
+
+          .legend {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            font-size: 10px;
+            line-height: 1.5;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 1000px;
+            display: grid;
+            grid-auto-rows: auto;
+            grid-column-gap: 5px;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 25px;
+          }
+
+          .legend-item {
+            margin-bottom: 0px;
+          }
+
+          .legend-color {
+            display: inline-block;
+            opacity: 1;
+            width: 40px;
+            height: 20px;
+            margin-right: 3px;
+            border-radius: 0px;
+            vertical-align: middle;
+          }
+
+          .column {
+            float: left;
+            width: 100%;
+          }
+
+          .column:after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+
+          .map-title {
+            position: absolute;
+            top: 150px;
+            left: 350px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+          }
+
+          #info {
+            position: absolute;
+            top: 180px;
+            left: 1070px;
+            width: 270px;
+            font-size: 12px;
+            text-align: justify;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+            border-radius: 5px;
+            z-index: 1000;
+          }
+
+          .map-info p strong {
+            display: inline-block;
+            width: 400px;
+            margin-right: 100px;
+          }
+
+          .map-info p span {
+            display: inline-block;
+            text-align: left;
+          }
+
+          #pieChart {
+            width: 100px !important;
+            height: 100px !important;
+          }
+        </style>
+      </head>
+      <body>
+        <div id="map"></div>
+        <div id="info" class="map-info"></div>
+        <div id="info"></div>
+
+        <script src="PROVDAPIL.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+          function showInfo(content) {
+            var infoDiv = document.getElementById('info');
+            infoDiv.innerHTML = content;
+
+            var oldCanvas = document.getElementById('pieChart');
+            if (oldCanvas) {
+              oldCanvas.parentNode.removeChild(oldCanvas);
+            }
+
+            var canvas = document.createElement('canvas');
+            canvas.id = 'pieChart';
+            canvas.width = 200;
+            canvas.height = 200;
+            infoDiv.appendChild(canvas);
+          }
+
+          var map = L.map('map', {
+            center: [-7.9000, 110.4500],
+            zoom: 10
+          });
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          }).addTo(map);
+
+          var dapilLayer = L.geoJson(null, {
+            style: function(feature) {
+              return {
+                fillColor: getColor(feature.properties.totalSah),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.7
+              };
+            },
+            onEachFeature: function(feature, layer) {
+              layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+              });
+            }
+          }).addTo(map);
+
+          function highlightFeature(e) {
+            var layer = e.target;
+            layer.setStyle({
+              weight: 5,
+              color: '#666',
+              dashArray: '',
+              fillOpacity: 0.7
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+              layer.bringToFront();
+            }
+
+            var props = layer.feature.properties;
+            var content = `
+              <h4>${props.namaDapil}</h4>
+              <p><strong>Total Suara Sah: </strong>${props.totalSah}</p>
+              <p><strong>Total Suara Tidak Sah: </strong>${props.totalTidakSah}</p>
+              <p><strong>Persentase Suara Sah: </strong>${((props.totalSah / (props.totalSah + props.totalTidakSah)) * 100).toFixed(2)}%</p>
+            `;
+            showInfo(content);
+
+            var ctx = document.getElementById('pieChart').getContext('2d');
+            new Chart(ctx, {
+              type: 'pie',
+              data: {
+                labels: ['Suara Sah', 'Suara Tidak Sah'],
+                datasets: [{
+                  data: [props.totalSah, props.totalTidakSah],
+                  backgroundColor: ['#36A2EB', '#FF6384'],
+                  hoverBackgroundColor: ['#36A2EB', '#FF6384']
+                }]
+              },
+              options: {
+                responsive: true
+              }
+            });
+          }
+
+          function resetHighlight(e) {
+            dapilLayer.resetStyle(e.target);
+            var infoDiv = document.getElementById('info');
+            infoDiv.innerHTML = '';
+          }
+
+          function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+          }
+
+          fetch('dapil.geojson')
+            .then(response => response.json())
+            .then(data => {
+              dapilLayer.addData(data);
+            });
+
+          function getColor(d) {
+            return d > 1000 ? '#800026' :
+                   d > 500 ? '#BD0026' :
+                   d > 200 ? '#E31A1C' :
+                   d > 100 ? '#FC4E2A' :
+                   d > 50 ? '#FD8D3C' :
+                   d > 20 ? '#FEB24C' :
+                   d > 10 ? '#FED976' :
+                            '#FFEDA0';
+          }
+        </script>
+      </body>
+    </section>
+  </main>
+
+  <script>
+    // Ensure the sidebar menu remains active based on the current page URL
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const menuItems = document.querySelectorAll('#sidebar-nav .menu-item a');
+
+      menuItems.forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.includes(currentPage)) {
+          item.classList.add('active');
+          item.closest('li.menu-item').querySelector('.nav-link').classList.remove('collapsed');
+          item.closest('.nav-content').classList.add('show');
+        }
+      });
+    });
+  </script>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>
